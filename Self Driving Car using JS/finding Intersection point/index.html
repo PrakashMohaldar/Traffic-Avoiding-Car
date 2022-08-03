@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Finding Intersection Point</title>
+    <style>
+        body{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="myCanvas"></canvas>
+    <script>
+        const canvas = document.getElementById("myCanvas");
+        canvas.width= window.innerWidth;
+        canvas.height = window.innerHeight;
+    
+         const A = {x:200, y:150};
+        const B = {x:150, y:250};
+        const C = {x:50, y:100};
+        const D = {x:250, y:200};
+
+        const ctx = canvas.getContext("2d");
+         let t = -1;
+    animate();
+    function animate(){
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.beginPath();
+        ctx.moveTo(A.x,A.y);
+        ctx.lineTo(B.x, B.y);
+
+        ctx.moveTo(C.x, C.y);
+        ctx.lineTo(D.x, D.y);
+        ctx.stroke();
+
+        
+        const M = {
+            x:lerp(A.x, B.x, t),
+            y:lerp(A.y, B.y,t)
+        }
+        const N = {
+            x:lerp(A.x, B.x, t),
+            y:lerp(A.y, B.y,t)
+        }
+
+        drawDot(A,"A");
+        drawDot(B,"B");
+        drawDot(C,"C");
+        drawDot(D,"D");
+        drawDot(M,"M",t<0||t>1);
+        
+
+            t +=0.005;
+        
+      
+
+        requestAnimationFrame(animate);
+        /*will call animate again and again*/
+    }
+
+    function lerp(A,B,t){
+        return A + (B-A)*t;
+    }
+
+    function drawDot(point, label,isRed){
+    ctx.beginPath();
+    ctx.fillStyle = isRed?"red":"white";
+    ctx.arc(point.x, point.y, 10,0,Math.PI*2);
+    ctx.fill();
+    ctx.stroke();
+    ctx.fillStyle = "black";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.font = "bold 14px Arial";
+    ctx.fillText(label, point.x, point.y);
+    }
+
+    
+    
+
+
+    </script>
+</body>
+</html>
